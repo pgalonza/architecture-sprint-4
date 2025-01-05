@@ -1,0 +1,16 @@
+@startuml
+autonumber
+
+participant "MES API" as mes_api
+participant "Cache" as cache
+database    "MES DB" as mes_db
+
+mes_api -> cache: Get order status
+cache -> mes_db: Cache missed, get data
+mes_db -> cache: Return order status\nand save result in cache
+cache -> mes_api: Return order information
+cache -> mes_db: Get order information
+mes_db -> cache: Return order information\nand save result in cache
+mes_api -> cache: Get order status
+cache -> mes_api: Return order information
+@enduml
